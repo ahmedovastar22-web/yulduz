@@ -1,14 +1,36 @@
-# Kiro + GitHub boshlang‘ich loyiha
+# AI Cloud Studio (demo)
 
-Bu loyiha foydalanuvchi yuborgan videodagi GitHub repository ochish va fayllarni yuklash jarayonini amalda bajarish uchun tayyorlandi. Videodagi original kodlar emas.
+Video generatsiya, subtitr va montaj, foto retush hamda kredit/obuna tizimi uchun boshqaruv paneli. Hozirgi versiya **to‘liq brauzerda ishlaydigan demo**: serversiz, kutubxonasiz, build qadamisiz.
 
-## Qanday ishlatish
-1. github.com/new sahifasiga kiring.
-2. Repository name: `kiro-ai-studio`.
-3. `Create repository` tugmasini bosing.
-4. `uploading an existing file` yoki `Add file > Upload files` orqali ushbu papkadagi fayllarni yuklang (ZIP faylning o‘zini emas).
-5. `Commit changes` tugmasini bosing.
-6. Kiro IDE'ni kompyuterga o‘rnating, papkani oching va `docs/TOPSHIRIQ.md` matnini Kiro chatiga kiriting.
+## Ishga tushirish
+`index.html` faylini brauzerda oching. Yoki papkada oddiy server ishga tushiring:
 
-## Chegaralar
-GitHub fayllari Claude Pro yoki Kiro Web pullik obunasini ochmaydi. Bu faqat oddiy lokal demo. Haqiqiy video AI, to‘lov, kredit tizimi va foydalanuvchi akkauntlari hali ulanmagan. API kalitlarni GitHub'ga yuklamang.
+```
+python3 -m http.server 8000
+```
+
+so‘ng `http://localhost:8000` manziliga kiring.
+
+## Bo‘limlar
+| Bo‘lim | Demo'da nima ishlaydi |
+|---|---|
+| Boshqaruv paneli | Balans, tarif, bajarilgan ishlar, modullar bo‘yicha foydalanish, so‘nggi harakatlar |
+| AI video | G‘oya matni, davomiylik/format/uslub tanlash, canvas animatsiyasi, WebM yuklab olish |
+| Subtitr va montaj | O‘z videongizni ochish, matndan subtitr qatorlari yaratish va tahrirlash, `.srt` yuklab olish, kesish va tezlikni ko‘rib chiqish, montaj rejasini (`.json`) yuklab olish |
+| AI retush | Rasm yuklash, yorug‘lik/kontrast/to‘yinganlik/iliqlik/silliqlash, tayyor presetlar, asl rasm bilan solishtirish, PNG yuklab olish |
+| Kredit va tariflar | Bepul / Pro / Biznes tariflari, oylik/yillik narx, kredit paketlari, kredit tarixi |
+
+Har bir amal kredit sarflaydi (AI video 5 soniyasi 10, subtitr 5, montaj rejasi 3, retush yuklash 2). Holat `localStorage`da saqlanadi.
+
+## Fayllar
+- `index.html`: sahifa tuzilmasi va 5 ta bo‘lim
+- `style.css`: dizayn (qorong‘i mavzu, mobil moslashuv)
+- `app.js`: barcha mantiq (holat, kredit, video, subtitr, retush)
+
+## Demo chegaralari (keyingi bosqich)
+- Haqiqiy AI video modeli ulanmagan: natija oddiy animatsiya.
+- Subtitr ovozdan emas, siz yozgan matndan yaratiladi. Haqiqiy nutqni matnga aylantirish (ASR) yo‘q.
+- Montaj tayyor video fayl chiqarmaydi, faqat ko‘rib chiqish va reja faylini beradi.
+- Retush oddiy rang filtrlari, yuzni aniqlash va AI modeli yo‘q.
+- To‘lov tizimi, foydalanuvchi akkauntlari va server yo‘q: tarif va kredit tanlansa, to‘lovsiz balansga qo‘shiladi.
+- API kalitlarni hech qachon GitHub'ga yuklamang (`.env` fayllari `.gitignore`da).

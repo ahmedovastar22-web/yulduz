@@ -7,23 +7,260 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
-    <p class="eyebrow">Boshlang‘ich demo</p>
-    <h1>AI Cloud Studio</h1>
-    <p>Video generatsiya, montaj, subtitr va retush xizmatlari uchun kelajakdagi platforma.</p>
-    <div class="grid">
-      <section><h2>AI video</h2><p>Hozircha ulanmagan</p></section>
-      <section><h2>Avtomatik subtitr</h2><p>Hozircha ulanmagan</p></section>
-      <section><h2>AI retush</h2><p>Hozircha ulanmagan</p></section>
-      <section><h2>Kredit tizimi</h2><p>Hozircha ulanmagan</p></section>
-    </div>
-    <form id="idea-form">
-      <label for="idea">Birinchi loyiha g‘oyangiz</label>
-      <textarea id="idea" rows="3" placeholder="Masalan: ro‘mol reklamasi uchun 15 soniyalik video"></textarea>
-      <button type="submit">Brauzerda saqlash</button>
-      <p id="status" role="status"></p>
-    </form>
-  </main>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></symbol>
+    <symbol id="i-video" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="13" height="12" rx="2"/><path d="M16 10l5-3v10l-5-3"/></symbol>
+    <symbol id="i-subs" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M7 12h4M13 12h4M7 15.5h2M11 15.5h6"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-9 9"/></symbol>
+    <symbol id="i-card" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.3H22l-6.2 4.5 2.4 7.3L12 16.6 5.8 21l2.4-7.3L2 9.3h7.6z"/></symbol>
+  </defs>
+</svg>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <svg class="icon brand-mark" aria-hidden="true"><use href="#i-star"/></svg>
+        <span class="brand-name">AI Cloud Studio</span>
+        <span class="chip chip-demo">demo</span>
+      </div>
+
+      <nav id="nav" aria-label="Asosiy menyu">
+        <button type="button" class="nav-btn" data-view="dashboard"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> Boshqaruv paneli</button>
+        <button type="button" class="nav-btn" data-view="video"><svg class="icon" aria-hidden="true"><use href="#i-video"/></svg> AI video</button>
+        <button type="button" class="nav-btn" data-view="subtitles"><svg class="icon" aria-hidden="true"><use href="#i-subs"/></svg> Subtitr va montaj</button>
+        <button type="button" class="nav-btn" data-view="retouch"><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg> AI retush</button>
+        <button type="button" class="nav-btn" data-view="credits"><svg class="icon" aria-hidden="true"><use href="#i-card"/></svg> Kredit va tariflar</button>
+      </nav>
+
+      <div class="side-credit">
+        <span class="muted">Kredit balansi</span>
+        <strong><span data-credits>0</span> kr.</strong>
+        <span class="muted">Tarif: <span data-plan-name></span></span>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">AI Cloud Studio</p>
+          <h1 id="view-title">Boshqaruv paneli</h1>
+        </div>
+        <p class="demo-note">Demo rejim: AI xizmatlari va to‘lov hali ulanmagan.</p>
+      </header>
+
+      <!-- 1. BOSHQARUV PANELI -->
+      <section class="view" id="view-dashboard" data-title="Boshqaruv paneli">
+        <div class="stats">
+          <article class="card stat"><span class="muted">Kredit balansi</span><strong><span data-credits>0</span></strong></article>
+          <article class="card stat"><span class="muted">Joriy tarif</span><strong data-plan-name></strong></article>
+          <article class="card stat"><span class="muted">Bajarilgan ishlar</span><strong id="stat-jobs">0</strong></article>
+          <article class="card stat"><span class="muted">Sarflangan kredit</span><strong id="stat-spent">0</strong></article>
+        </div>
+
+        <h2 class="section-title">Tezkor boshlash</h2>
+        <div class="grid">
+          <button type="button" class="card action" data-go="video"><svg class="icon icon-lg action-icon" aria-hidden="true"><use href="#i-video"/></svg><h3>AI video</h3><p>G‘oyadan qisqa video yarating.</p></button>
+          <button type="button" class="card action" data-go="subtitles"><svg class="icon icon-lg action-icon" aria-hidden="true"><use href="#i-subs"/></svg><h3>Subtitr va montaj</h3><p>Videoga subtitr qo‘shing va kesing.</p></button>
+          <button type="button" class="card action" data-go="retouch"><svg class="icon icon-lg action-icon" aria-hidden="true"><use href="#i-image"/></svg><h3>AI retush</h3><p>Rasm rangi va yorqinligini sozlang.</p></button>
+          <button type="button" class="card action" data-go="credits"><svg class="icon icon-lg action-icon" aria-hidden="true"><use href="#i-card"/></svg><h3>Kredit va tariflar</h3><p>Tarifni tanlang, kredit qo‘shing.</p></button>
+        </div>
+
+        <div class="two-col">
+          <article class="card">
+            <h2>Modullar bo‘yicha foydalanish</h2>
+            <div id="usage" class="usage"></div>
+          </article>
+          <article class="card">
+            <h2>So‘nggi harakatlar</h2>
+            <ul id="history-short" class="history"></ul>
+          </article>
+        </div>
+        <p><button type="button" class="btn btn-ghost" id="reset-demo">Demo ma’lumotlarni tiklash</button></p>
+      </section>
+
+      <!-- 2. AI VIDEO -->
+      <section class="view" id="view-video" data-title="AI video generatsiya" hidden>
+        <div class="two-col">
+          <form id="idea-form" class="card">
+            <h2>Video g‘oyasi</h2>
+            <label for="idea">Birinchi loyiha g‘oyangiz</label>
+            <textarea id="idea" rows="4" placeholder="Masalan: ro‘mol reklamasi uchun 15 soniyalik video"></textarea>
+            <button type="submit" class="btn btn-ghost">Brauzerda saqlash</button>
+            <p id="status" role="status"></p>
+
+            <div class="fields">
+              <div>
+                <label for="video-duration">Davomiyligi</label>
+                <select id="video-duration">
+                  <option value="5">5 soniya (10 kredit)</option>
+                  <option value="10">10 soniya (20 kredit)</option>
+                  <option value="15">15 soniya (30 kredit)</option>
+                </select>
+              </div>
+              <div>
+                <label for="video-ratio">Format</label>
+                <select id="video-ratio">
+                  <option value="16:9">16:9 (YouTube)</option>
+                  <option value="9:16">9:16 (Reels, TikTok)</option>
+                  <option value="1:1">1:1 (Instagram)</option>
+                </select>
+              </div>
+              <div>
+                <label for="video-style">Uslub</label>
+                <select id="video-style">
+                  <option value="cinematic">Kinematik</option>
+                  <option value="animation">Animatsiya</option>
+                  <option value="ad">Reklama</option>
+                  <option value="minimal">Minimal</option>
+                </select>
+              </div>
+            </div>
+            <button type="button" class="btn" id="gen-video">Video yaratish</button>
+          </form>
+
+          <article class="card">
+            <h2>Natija</h2>
+            <div class="preview-box"><canvas id="video-canvas" width="640" height="360" aria-label="Video ko‘rinishi"></canvas></div>
+            <div class="progress" aria-hidden="true"><div id="video-progress"></div></div>
+            <p id="video-status" class="muted" role="status">Hozircha video yaratilmagan.</p>
+            <button type="button" class="btn btn-ghost" id="download-video" disabled>WebM sifatida yuklab olish</button>
+            <p class="note">Bu demo animatsiya, haqiqiy AI video emas. Haqiqiy model keyingi bosqichda ulanadi.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 3. SUBTITR VA MONTAJ -->
+      <section class="view" id="view-subtitles" data-title="Avtomatik subtitr va video montaj" hidden>
+        <div class="two-col">
+          <article class="card">
+            <h2>Video</h2>
+            <label for="sub-file">Video faylni tanlang</label>
+            <input type="file" id="sub-file" accept="video/*" />
+            <p class="note">Fayl serverga yuborilmaydi, faqat shu brauzerda ochiladi.</p>
+            <div class="player">
+              <video id="sub-video" controls playsinline></video>
+              <div id="sub-overlay" class="sub-overlay" aria-live="polite"></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>Subtitr</h2>
+            <label for="sub-script">Matn (har bir gap alohida subtitrga aylanadi)</label>
+            <textarea id="sub-script" rows="5" placeholder="Salom! Bu AI Cloud Studio demo videosi. Subtitrlar video davomiyligiga qarab taqsimlanadi."></textarea>
+            <label for="sub-lang">Til</label>
+            <select id="sub-lang">
+              <option value="uz">O‘zbekcha</option>
+              <option value="ru">Ruscha</option>
+              <option value="en">Inglizcha</option>
+            </select>
+            <div class="btn-row">
+              <button type="button" class="btn" id="gen-subs" disabled>Subtitr yaratish (5 kredit)</button>
+              <button type="button" class="btn btn-ghost" id="download-srt" disabled>.srt yuklab olish</button>
+            </div>
+            <p class="note">Demo: matn vaqtga bo‘lib chiqiladi. Ovozdan matn ajratish (ASR) keyingi bosqichda ulanadi.</p>
+            <ol id="cue-list" class="cues"></ol>
+          </article>
+        </div>
+
+        <article class="card">
+          <h2>Montaj: kesish va tezlik</h2>
+          <div class="fields">
+            <div>
+              <label for="trim-start">Boshlanish (soniya)</label>
+              <input type="number" id="trim-start" min="0" step="0.1" value="0" disabled />
+              <button type="button" class="btn btn-small btn-ghost" id="mark-start" disabled>Hozirgi joyni belgilash</button>
+            </div>
+            <div>
+              <label for="trim-end">Tugash (soniya)</label>
+              <input type="number" id="trim-end" min="0" step="0.1" value="0" disabled />
+              <button type="button" class="btn btn-small btn-ghost" id="mark-end" disabled>Hozirgi joyni belgilash</button>
+            </div>
+            <div>
+              <label for="speed">Tezlik</label>
+              <select id="speed" disabled>
+                <option value="0.5">0.5×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.5">1.5×</option>
+                <option value="2">2×</option>
+              </select>
+              <label class="check"><input type="checkbox" id="loop-trim" disabled /> Kesilgan qismni takrorlash</label>
+            </div>
+          </div>
+          <p id="montage-info" class="muted" role="status">Montaj uchun avval video tanlang.</p>
+          <button type="button" class="btn" id="export-montage" disabled>Montaj rejasini yuklab olish (3 kredit)</button>
+          <p class="note">Demo: kesish va tezlik faqat ko‘rib chiqishda ishlaydi. Tayyor video fayl chiqarish (render) keyingi bosqichda qo‘shiladi.</p>
+        </article>
+      </section>
+
+      <!-- 4. AI RETUSH -->
+      <section class="view" id="view-retouch" data-title="AI foto retush" hidden>
+        <div class="two-col two-col-wide">
+          <article class="card">
+            <h2>Rasm</h2>
+            <label for="photo-file">Rasm tanlang (JPG, PNG, WebP)</label>
+            <input type="file" id="photo-file" accept="image/*" />
+            <div class="preview-box"><canvas id="photo-canvas" width="640" height="400" aria-label="Rasm ko‘rinishi"></canvas></div>
+            <div class="btn-row">
+              <button type="button" class="btn btn-ghost" id="compare-btn" disabled>Asl rasmni ko‘rish (bosib turing)</button>
+              <button type="button" class="btn" id="download-photo" disabled>PNG yuklab olish (2 kredit)</button>
+            </div>
+          </article>
+
+          <article class="card">
+            <h2>Sozlamalar</h2>
+            <div class="presets" id="presets">
+              <button type="button" class="btn btn-small btn-ghost" data-preset="reset">Asl holat</button>
+              <button type="button" class="btn btn-small btn-ghost" data-preset="portrait">Portret</button>
+              <button type="button" class="btn btn-small btn-ghost" data-preset="bright">Yorqin</button>
+              <button type="button" class="btn btn-small btn-ghost" data-preset="warm">Iliq</button>
+              <button type="button" class="btn btn-small btn-ghost" data-preset="bw">Qora-oq</button>
+            </div>
+            <div class="slider"><label for="r-brightness">Yorug‘lik <output id="o-brightness">0</output></label><input type="range" id="r-brightness" data-key="brightness" min="-50" max="50" value="0" disabled /></div>
+            <div class="slider"><label for="r-contrast">Kontrast <output id="o-contrast">0</output></label><input type="range" id="r-contrast" data-key="contrast" min="-50" max="50" value="0" disabled /></div>
+            <div class="slider"><label for="r-saturation">To‘yinganlik <output id="o-saturation">0</output></label><input type="range" id="r-saturation" data-key="saturation" min="-100" max="100" value="0" disabled /></div>
+            <div class="slider"><label for="r-warmth">Iliqlik <output id="o-warmth">0</output></label><input type="range" id="r-warmth" data-key="warmth" min="-50" max="50" value="0" disabled /></div>
+            <div class="slider"><label for="r-smooth">Teri silliqlash <output id="o-smooth">0</output></label><input type="range" id="r-smooth" data-key="smooth" min="0" max="10" value="0" disabled /></div>
+            <p class="note">Demo: bu oddiy rang va xiralashtirish filtrlari. Yuzni aniqlash va haqiqiy AI retush keyingi bosqichda ulanadi.</p>
+          </article>
+        </div>
+      </section>
+
+      <!-- 5. KREDIT VA TARIFLAR -->
+      <section class="view" id="view-credits" data-title="Kredit va obuna tariflari" hidden>
+        <div class="two-col">
+          <article class="card stat"><span class="muted">Joriy balans</span><strong><span data-credits>0</span> kredit</strong><span class="muted">Tarif: <span data-plan-name></span></span></article>
+          <article class="card">
+            <h2>Xizmat narxlari</h2>
+            <ul class="prices">
+              <li><span>AI video (5 soniya uchun)</span><strong>10 kr.</strong></li>
+              <li><span>Subtitr yaratish</span><strong>5 kr.</strong></li>
+              <li><span>Montaj rejasini yuklash</span><strong>3 kr.</strong></li>
+              <li><span>Retush qilingan rasmni yuklash</span><strong>2 kr.</strong></li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="section-head">
+          <h2 class="section-title">Obuna tariflari</h2>
+          <div class="toggle" role="group" aria-label="To‘lov davri">
+            <button type="button" class="toggle-btn" data-billing="monthly">Oylik</button>
+            <button type="button" class="toggle-btn" data-billing="yearly">Yillik (−20%)</button>
+          </div>
+        </div>
+        <div id="plans" class="grid plans"></div>
+
+        <h2 class="section-title">Qo‘shimcha kredit paketlari</h2>
+        <div id="packs" class="grid packs"></div>
+
+        <h2 class="section-title">Kredit tarixi</h2>
+        <article class="card"><ul id="history-full" class="history"></ul></article>
+        <p class="note">Narxlar namunaviy. Demo rejimda haqiqiy to‘lov olinmaydi, tanlangan kredit shunchaki balansga qo‘shiladi.</p>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
   <script src="app.js"></script>
 </body>
 </html>
